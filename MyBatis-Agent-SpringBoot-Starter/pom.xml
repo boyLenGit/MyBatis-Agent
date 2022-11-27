@@ -11,7 +11,7 @@
 
     <groupId>boylen.agent</groupId>
     <artifactId>MyBatis-Agent-SpringBoot-Starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>MyBatis-Agent-SpringBoot-Starter</name>
     <description>MyBatis-Agent-SpringBoot-Starter</description>
 
@@ -28,13 +28,13 @@
         <dependency>
             <groupId>boylen.agent</groupId>
             <artifactId>MyBatis-Agent-Core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>boylen.agent</groupId>
             <artifactId>MyBatis-Agent-AutoConfigration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2</version>
         </dependency>
     </dependencies>
 

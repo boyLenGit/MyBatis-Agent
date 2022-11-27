@@ -19,11 +19,11 @@
 | 版本号 | 特性 |
 | --- | --- |
 | 0.0.1-SNAPSHOT | 初始化版本，具备上述基础功能 |
-|  |  |
+| 0.0.2 | 支持第三方/自定义拦截器 |
 
-### 用法-Maven
+## 用法
 
-1.在pom文件中加入Springboot starter依赖
+1.在pom文件中加入Springboot starter依赖（此为Maven示例，Gradle请自行按格式写）
 
 ```xml
 <dependency>

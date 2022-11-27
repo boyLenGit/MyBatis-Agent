@@ -59,13 +59,7 @@
 
         <dependency>
             <groupId>boylen.agent</groupId>
-            <artifactId>MyBatis-Agent-Core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>boylen.agent</groupId>
-            <artifactId>MyBatis-Agent-AutoConfigration</artifactId>
+            <artifactId>MyBatis-Agent-SpringBoot-Starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

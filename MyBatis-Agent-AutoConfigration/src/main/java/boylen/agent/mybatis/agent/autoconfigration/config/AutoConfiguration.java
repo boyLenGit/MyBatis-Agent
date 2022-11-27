@@ -10,6 +10,9 @@ import boylen.agent.mybatis.agent.core.service.InitAgentService;
 import boylen.agent.mybatis.agent.core.util.SpringTool;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,6 +20,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.Resource;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -74,31 +78,31 @@ public class AutoConfiguration {
         return new SpringTool();
     }
 
-//    @Bean
-//    public SqlSessionFactory sqlSessionFactory(org.apache.ibatis.session.Configuration configuration) throws Exception {
-//        SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
-//        // DataSource
-//        Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
-//        for (String key : dataSourceMap.keySet()) {
-//            if (dataSourceMap.get(key) != null) {
-//                sessionFactoryBean.setDataSource(dataSourceMap.get(key));
-//                break;
-//            }
-//        }
-//        // mapper
-//        Resource[] resources = agentProperties.initMapperLocations();
-//        if (resources.length > 0) {
-//            sessionFactoryBean.setMapperLocations(resources);
-//        }
-//        // Interceptor拦截器
-//        Interceptor[] interceptors = agentProperties.initInterceptors();
-//        if (interceptors.length > 0){
-//            sessionFactoryBean.setPlugins(interceptors);
-//        }
-//        // Configuration
-//        sessionFactoryBean.setConfiguration(configuration);
-//        return sessionFactoryBean.getObject();
-//    }
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(org.apache.ibatis.session.Configuration configuration) throws Exception {
+        SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
+        // DataSource
+        Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
+        for (String key : dataSourceMap.keySet()) {
+            if (dataSourceMap.get(key) != null) {
+                sessionFactoryBean.setDataSource(dataSourceMap.get(key));
+                break;
+            }
+        }
+        // mapper
+        Resource[] resources = agentProperties.initMapperLocations();
+        if (resources.length > 0) {
+            sessionFactoryBean.setMapperLocations(resources);
+        }
+        // Interceptor拦截器
+        Interceptor[] interceptors = agentProperties.initInterceptors();
+        if (interceptors.length > 0){
+            sessionFactoryBean.setPlugins(interceptors);
+        }
+        // Configuration
+        sessionFactoryBean.setConfiguration(configuration);
+        return sessionFactoryBean.getObject();
+    }
 
     @Bean
     @ConditionalOnMissingBean

@@ -6,6 +6,7 @@ import boylen.agent.mybatis.agent.core.core.DataTableAdapter;
 import boylen.agent.mybatis.agent.core.core.SourceAgent;
 import boylen.agent.mybatis.agent.core.service.ConfigAgentService;
 import boylen.agent.mybatis.agent.core.util.ReflectUtils;
+import boylen.agent.mybatis.agent.core.util.SpringTool;
 import boylen.agent.mybatis.agent.core.util.SqlTool;
 import boylen.agent.mybatis.agent.core.util.StringUtils;
 import org.apache.ibatis.executor.Executor;
@@ -103,6 +104,9 @@ public class AgentInterceptor implements Interceptor {
     }
 
     public void printSql(MappedStatement mappedStatement, Object[] args) {
+        if (configAgentService == null){
+            configAgentService = SpringTool.getBean(ConfigAgentService.class);
+        }
         if (configAgentService.getAgentProperties().isPrintSql()) {
             // 获取 SQL
             BoundSql boundSql = mappedStatement.getSqlSource().getBoundSql(args[1]);

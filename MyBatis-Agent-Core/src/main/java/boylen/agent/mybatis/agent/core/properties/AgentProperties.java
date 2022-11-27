@@ -3,6 +3,7 @@ package boylen.agent.mybatis.agent.core.properties;
 import boylen.agent.mybatis.agent.core.interceptor.AgentInterceptor;
 import lombok.Data;
 import org.apache.ibatis.plugin.Interceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -17,6 +18,7 @@ public class AgentProperties {
     public static final String PREFIX_AGENT = "agent.properties";
 
     private static final ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
+
 
     /**
      * 是否打印sql

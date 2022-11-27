@@ -23,7 +23,7 @@ import java.util.Map;
 
 
 @Configuration
-@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE) // 希望我们的自动配置类优先于其他自动配置候选类
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties({AgentPropertiesE.class, DataSourceProperties.class})
 public class AutoConfiguration {
     @Autowired
@@ -32,37 +32,22 @@ public class AutoConfiguration {
     @Autowired
     private AgentProperties agentProperties;
 
-    /**
-     * 注入DataSourceAgent代理器
-     */
     @Bean
     public DataSourceAgent dataSourceAgent() {
-        // 配置DataSources↓
-        // 提取配置文件内容
         Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
         return new DataSourceAgent(dataSourceMap);
     }
 
-    /**
-     * 注入AgentInterceptor拦截器
-     */
     @Bean
     public AgentInterceptor agentInterceptor() {
-        // 在其中进行相关配置
         return new AgentInterceptor();
     }
 
-    /**
-     * 注入初始化服务
-     */
     @Bean
     public InitAgentService initMyBatisAgentService() {
         return new InitAgentService();
     }
 
-    /**
-     * 注入配置服务
-     */
     @Bean
     public ConfigAgentService configAgentService() {
         return new ConfigAgentService(agentProperties);

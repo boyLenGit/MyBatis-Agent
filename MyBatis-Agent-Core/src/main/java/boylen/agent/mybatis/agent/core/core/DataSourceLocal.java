@@ -12,20 +12,20 @@ public class DataSourceLocal {
         setDefaultDataSource();
     }
 
-    public static void setDataSource(String name, DataSource dataSource){
+    public static void setDataSource(String name, DataSource dataSource) {
         dataSourceNameLocal.set(name);
         dataSourceLocal.set(dataSource);
     }
 
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         return dataSourceLocal.get();
     }
 
-    public static String getDataSourceName(){
+    public static String getDataSourceName() {
         return dataSourceNameLocal.get();
     }
 
-    public static void setDefaultDataSource(){
+    public static void setDefaultDataSource() {
 
     }
 }

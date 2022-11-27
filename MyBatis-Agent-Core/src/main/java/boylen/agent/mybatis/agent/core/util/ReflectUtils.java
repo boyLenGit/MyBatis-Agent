@@ -12,9 +12,9 @@ import java.util.List;
 
 
 public class ReflectUtils {
-    public static void getAllVariable(Object obj){
+    public static void getAllVariable(Object obj) {
         Field[] fields = obj.getClass().getDeclaredFields();
-        for(int i = 0 , len = fields.length; i < len; i++) {
+        for (int i = 0, len = fields.length; i < len; i++) {
             // 对于每个属性，获取属性名
             String varName = fields[i].getName();
             try {
@@ -39,10 +39,10 @@ public class ReflectUtils {
         }
     }
 
-    public static List<String> ObjectValueToListString(Object obj){
+    public static List<String> ObjectValueToListString(Object obj) {
         List<String> res = new ArrayList<>();
         Field[] fields = obj.getClass().getDeclaredFields();
-        for(int i = 0 , len = fields.length; i < len; i++) {
+        for (int i = 0, len = fields.length; i < len; i++) {
             // 对于每个属性，获取属性名
             String varName = fields[i].getName();
             try {
@@ -56,7 +56,7 @@ public class ReflectUtils {
                     objVal = fields[i].get(obj);
                     if (objVal == null) {
                         res.add("");
-                    }else {
+                    } else {
                         res.add(objVal.toString());
                     }
 //                    System.err.println("传入的对象中包含一个如下的变量：" + varName + " = " + objVal);
@@ -73,10 +73,10 @@ public class ReflectUtils {
         return res;
     }
 
-    public static String[] ObjectColNameToListString(Object obj){
+    public static String[] ObjectColNameToListString(Object obj) {
         Field[] fields = obj.getClass().getDeclaredFields();
         String[] colNames = new String[fields.length];
-        for(int i = 0 , len = fields.length; i < len; i++) {
+        for (int i = 0, len = fields.length; i < len; i++) {
             // 对于每个属性，获取属性名
             String varName = fields[i].getName();
             try {
@@ -109,10 +109,10 @@ public class ReflectUtils {
      * @param obj obj
      * @return {@link List}<{@link ObjectMap}>
      */
-    public static List<ObjectMap> ObjectToMapEntity(Object obj){
+    public static List<ObjectMap> ObjectToMapEntity(Object obj) {
         Field[] fields = obj.getClass().getDeclaredFields();
         List<ObjectMap> list = new ArrayList<>();
-        for(int i = 0 , len = fields.length; i < len; i++) {
+        for (int i = 0, len = fields.length; i < len; i++) {
             // 对于每个属性，获取属性名
             String varName = fields[i].getName();
             try {

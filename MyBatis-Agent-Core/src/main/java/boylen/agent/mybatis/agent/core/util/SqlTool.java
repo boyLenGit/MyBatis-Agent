@@ -78,11 +78,11 @@ public class SqlTool {
 
     public static String[] formatSqlWithParameter(String sql, Object arg) {
         StringBuilder params = new StringBuilder();
-        if (arg instanceof String){
+        if (arg instanceof String) {
             params.append(arg);
-        }else if (arg instanceof MapperMethod.ParamMap){
+        } else if (arg instanceof MapperMethod.ParamMap) {
             MapperMethod.ParamMap paramMap = (MapperMethod.ParamMap) arg;
-            for (int i=1; i<=paramMap.size()/2; i++){
+            for (int i = 1; i <= paramMap.size() / 2; i++) {
                 params.append(paramMap.get("param" + i)).append(", ");
             }
         }

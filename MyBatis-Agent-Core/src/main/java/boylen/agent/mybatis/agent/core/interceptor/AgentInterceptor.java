@@ -42,54 +42,53 @@ public class AgentInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         //判断当前是否有实际事务处于活动状态。true=是
         boolean synchronizationActive = TransactionSynchronizationManager.isActualTransactionActive();
-        // 获取参数
-        Object[] args = invocation.getArgs();
-        MappedStatement mappedStatement = (MappedStatement) args[0];
-        // 执行的mapper方法的全路径名。例如：len.feature.sqlagent.dao.UserMapper.getUserStatus
-        String mapperId = mappedStatement.getId();
-        // 打印SQL语句
-        printSql(mappedStatement, args);
-        // 获取 sqlCommandType: UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH
-        SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
+        if (synchronizationActive){
+            logger.info("In Transaction");
+        }else {
+            // 获取参数
+            Object[] args = invocation.getArgs();
+            MappedStatement mappedStatement = (MappedStatement) args[0];
+            // 执行的mapper方法的全路径名。例如：len.feature.sqlagent.dao.UserMapper.getUserStatus
+            String mapperId = mappedStatement.getId();
+            // 打印SQL语句
+            printSql(mappedStatement, args);
+            // 获取 sqlCommandType: UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH
+            SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
 
-        // 反射获取方法与类
-        Method mapperMethod = getMapperMethod(mapperId);
-        Class mapperClass = getMapperClass(mapperId);
-        // 判别代理场景：
-        if (mapperMethod != null && mapperClass != null) {
-            // ↓ 对方法注解进行数据源配置。优先级：方法注解>类注解>无注解
-            if (mapperMethod.isAnnotationPresent(SourceAgent.class) && !"".equals(mapperMethod.getAnnotation(SourceAgent.class).database())) {
-                // 选择注解指定的DataSource
-                String database = mapperMethod.getAnnotation(SourceAgent.class).database();
-                DataSource dataSource = DataSourceAgent.getDataSource(database);
-                if (dataSource == null) {
-                    System.out.println("intercept" + "DataSource不存在！");
+            // 反射获取方法与类
+            Method mapperMethod = getMapperMethod(mapperId);
+            Class<?> mapperClass = getMapperClass(mapperId);
+            // 判别代理场景：
+            if (mapperMethod != null && mapperClass != null) {
+                // ↓ 对方法注解进行数据源配置。优先级：方法注解>类注解>无注解
+                if (mapperMethod.isAnnotationPresent(SourceAgent.class) && !"".equals(mapperMethod.getAnnotation(SourceAgent.class).database())) {
+                    // 选择注解指定的DataSource
+                    String database = mapperMethod.getAnnotation(SourceAgent.class).database();
+                    DataSource dataSource = DataSourceAgent.getDataSource(database);
+                    if (dataSource == null) {
+                        logger.error("DataSource is not exist! Database name: " + database);
+                        throw new Exception("DataSource is not exist! Database name: " + database);
+                    }
+                    DataSourceLocal.setDataSource(database, dataSource);
                 }
-                DataSourceLocal.setDataSource(database, dataSource);
-            }
-            // ↓ 对类注解进行数据源配置
-            else if (mapperClass.isAnnotationPresent(SourceAgent.class) && !"".equals(((SourceAgent) mapperClass.getAnnotation(SourceAgent.class)).database())) {
-                // 选择注解指定的DataSource
-                String database = ((SourceAgent) mapperClass.getAnnotation(SourceAgent.class)).database();
-                DataSource dataSource = DataSourceAgent.getDataSource(database);
-                if (dataSource == null) {
-                    System.out.println("intercept" + "DataSource不存在！");
+                // ↓ 对类注解进行数据源配置
+                else if (mapperClass.isAnnotationPresent(SourceAgent.class) && !"".equals(((SourceAgent) mapperClass.getAnnotation(SourceAgent.class)).database())) {
+                    // 选择注解指定的DataSource
+                    String database = ((SourceAgent) mapperClass.getAnnotation(SourceAgent.class)).database();
+                    DataSource dataSource = DataSourceAgent.getDataSource(database);
+                    if (dataSource == null) {
+                        logger.error("DataSource is not exist! Database name: " + database);
+                        throw new Exception("DataSource is not exist! Database name: " + database);
+                    }
+                    DataSourceLocal.setDataSource(database, dataSource);
+                } else {
+                    // 自适应匹配对应的DataSource
+                    String sqlRaw = getSql(mappedStatement, args);
+                    String tableName = SqlTool.getTableNameByRawSql(sqlRaw);
+                    DataTableAdapter.setDataSourceByTableName(tableName);
                 }
-                DataSourceLocal.setDataSource(database, dataSource);
-            } else {
-                // 自适应匹配对应的DataSource
-                String sqlRaw = getSql(mappedStatement, args);
-                String tableName = SqlTool.getTableNameByRawSql(sqlRaw);
-                DataTableAdapter.setDataSourceByTableName(tableName);
             }
         }
-
-//        if (synchronizationActive){
-//            System.out.println("处于事务中");
-//        }else {
-//            // 方法是否有注解，有则根据注解选择数据源；没有则根据表名选择数据源
-//
-//        }
         return invocation.proceed();
     }
 

@@ -3,7 +3,6 @@ package boylen.agent.mybatis.agent.autoconfigration.config;
 import boylen.agent.mybatis.agent.autoconfigration.properties.AgentPropertiesE;
 import boylen.agent.mybatis.agent.autoconfigration.properties.DataSourceProperties;
 import boylen.agent.mybatis.agent.core.core.DataSourceAgent;
-import boylen.agent.mybatis.agent.core.interceptor.AgentInterceptor;
 import boylen.agent.mybatis.agent.core.properties.AgentProperties;
 import boylen.agent.mybatis.agent.core.service.ConfigAgentService;
 import boylen.agent.mybatis.agent.core.service.InitAgentService;
@@ -14,7 +13,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -48,6 +46,7 @@ public class AutoConfiguration {
         Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
         return new DataSourceAgent(dataSourceMap);
     }
+
 
     /**
      * 注入初始化服务

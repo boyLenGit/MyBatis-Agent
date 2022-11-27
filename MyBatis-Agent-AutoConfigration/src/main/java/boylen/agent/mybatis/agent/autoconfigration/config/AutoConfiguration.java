@@ -46,6 +46,7 @@ public class AutoConfiguration {
         return new DataSourceAgent(dataSourceMap);
     }
 
+
     /**
      * 注入初始化服务
      */

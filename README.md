@@ -1,6 +1,8 @@
 # **MyBatis-Agent**
 
-### **MyBatis自适应多数据源代理组件，已接入Springboot starter。**
+### MyBatis自适应多数据源代理组件，已接入SpringBoot starter。
+
+—— Code by boyLen
 
 ## 特性
 
@@ -29,7 +31,7 @@
 <dependency>
     <groupId>boylen.agent</groupId>
     <artifactId>MyBatis-Agent-SpringBoot-Starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>{对应版本}</version>
 </dependency>
 ```
 

@@ -8,6 +8,8 @@ import boylen.agent.mybatis.agent.core.properties.AgentProperties;
 import boylen.agent.mybatis.agent.core.service.ConfigAgentService;
 import boylen.agent.mybatis.agent.core.service.InitAgentService;
 import boylen.agent.mybatis.agent.core.util.SpringTool;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.plugin.Interceptor;
@@ -41,20 +43,10 @@ public class AutoConfiguration {
      * 注入DataSourceAgent代理器
      */
     @Bean
-    public DataSourceAgent dataSourceAgent() {
-        // 配置DataSources↓
+    public DataSource dataSourceAgent() {
         // 提取配置文件内容
         Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
         return new DataSourceAgent(dataSourceMap);
-    }
-
-    /**
-     * 注入AgentInterceptor拦截器
-     */
-    @Bean
-    public AgentInterceptor agentInterceptor() {
-        // 在其中进行相关配置
-        return new AgentInterceptor();
     }
 
     /**
@@ -79,16 +71,10 @@ public class AutoConfiguration {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(org.apache.ibatis.session.Configuration configuration) throws Exception {
-        SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
-        // DataSource
-        Map<String, DataSource> dataSourceMap = getDataSourceMapByProperties();
-        for (String key : dataSourceMap.keySet()) {
-            if (dataSourceMap.get(key) != null) {
-                sessionFactoryBean.setDataSource(dataSourceMap.get(key));
-                break;
-            }
-        }
+    public SqlSessionFactory sqlSessionFactory(MybatisConfiguration configuration, DataSource dataSourceAgent) throws Exception {
+        MybatisSqlSessionFactoryBean sessionFactoryBean = new MybatisSqlSessionFactoryBean();
+        // DataSource 我注入的其实是我自己写的DataSourceAgent
+        sessionFactoryBean.setDataSource(dataSourceAgent);
         // mapper
         Resource[] resources = agentProperties.initMapperLocations();
         if (resources.length > 0) {
@@ -106,8 +92,8 @@ public class AutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public org.apache.ibatis.session.Configuration configuration() {
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+    public MybatisConfiguration configuration() {
+        MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setSafeRowBoundsEnabled(agentProperties.isSafeRowBoundsEnabled());
         configuration.setSafeResultHandlerEnabled(agentProperties.isSafeResultHandlerEnabled());
         configuration.setMapUnderscoreToCamelCase(agentProperties.isMapUnderscoreToCamelCase());

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+boylen.agent.mybatis.agent.autoconfigration.config.AutoConfiguration

@@ -19,10 +19,6 @@ public class AgentProperties {
 
     private static final ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
 
-
-    /**
-     * 是否打印sql
-     */
     private boolean isPrintSql = false;
 
     private String[] mapperLocations;
@@ -65,9 +61,6 @@ public class AgentProperties {
         return resources;
     }
 
-    /**
-     * 初始化自定义的拦截器，用于SqlSessionFactory加载plugin
-     */
     public Interceptor[] initInterceptors() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         if (plugins != null && plugins.length != 0) {
             Interceptor[] interceptors = new Interceptor[plugins.length];

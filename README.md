@@ -1,2 +1,21 @@
-# MyBatis-Agent
-MyBatis自适应代理组件/SpringBoot Starter
+# **MyBatis-Agent**
+
+**MyBatis自适应多数据源代理组件，已接入SpringBoot Starter。**
+
+### 特性
+
+1.接入SpringBoot Starter，实现自动配置；
+
+2.多数据源切换，支持任意数量数据源，兼容不同MySQL版本、不同驱动；
+
+3.注解式声明所用数据源，注解支持类、类方法
+
+4.自适应数据源，可在不配置数据源的情况下自动识别应该查询的数据源
+
+5.支持自定义第三方拦截器
+
+### 版本
+
+### 用法
+
+1.

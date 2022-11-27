@@ -120,7 +120,6 @@ public class AutoConfiguration {
         String[] password = dataSourceProperties.getPassword();
         String[] driverClassName = dataSourceProperties.getDriverClassName();
         int length = Math.max(Math.max(jdbcUrl.length, username.length), Math.max(password.length, driverClassName.length));
-        // 生成DataSource
         Map<String, DataSource> dataSourceMap = new HashMap<>();
         for (int i = 0; i < length; i++) {
             HikariConfig dataSourceConfig = new HikariConfig();
@@ -128,14 +127,11 @@ public class AutoConfiguration {
             dataSourceConfig.setUsername(username[username.length == 1 ? 0 : i]);
             dataSourceConfig.setPassword(password[password.length == 1 ? 0 : i]);
             dataSourceConfig.setDriverClassName(driverClassName[driverClassName.length == 1 ? 0 : i]);
-            HikariDataSource dataSource = new HikariDataSource(dataSourceConfig); // 数据源连接池
-            // 获取数据库的名字
+            HikariDataSource dataSource = new HikariDataSource(dataSourceConfig);
             String databaseName = getDatabaseNameFromJdbcUrl(jdbcUrl[jdbcUrl.length == 1 ? 0 : i]);
-            // 空值检查
             if (databaseName == null) {
                 continue;
             }
-            // 存储DataSource
             dataSourceMap.put(databaseName, dataSource);
         }
         return dataSourceMap;

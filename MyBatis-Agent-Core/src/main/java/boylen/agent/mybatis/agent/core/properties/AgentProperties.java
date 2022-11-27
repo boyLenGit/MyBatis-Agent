@@ -29,7 +29,6 @@ public class AgentProperties {
 
     private Resource[] resources;
 
-    // router的属性
     private boolean safeRowBoundsEnabled;
     private boolean safeResultHandlerEnabled = true;
     private boolean mapUnderscoreToCamelCase;
@@ -53,8 +52,8 @@ public class AgentProperties {
             }
             resources = new Resource[length];
             int index = 0;
-            for (Resource[] resolveResources: resourceList){
-                for (Resource resolveResource: resolveResources){
+            for (Resource[] resolveResources : resourceList) {
+                for (Resource resolveResource : resolveResources) {
                     resources[index++] = resolveResource;
                 }
             }
@@ -68,15 +67,15 @@ public class AgentProperties {
      * 初始化自定义的拦截器，用于SqlSessionFactory加载plugin
      */
     public Interceptor[] initInterceptors() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        if (plugins != null && plugins.length !=0){
+        if (plugins != null && plugins.length != 0) {
             Interceptor[] interceptors = new Interceptor[plugins.length];
-            for (int i = 0;i < plugins.length;i++){
+            for (int i = 0; i < plugins.length; i++) {
                 Class<?> clazz = Class.forName(plugins[i]);
                 Interceptor interceptor = (Interceptor) clazz.newInstance();
                 interceptors[i] = interceptor;
             }
             return interceptors;
-        }else {
+        } else {
             return new Interceptor[]{new AgentInterceptor()};
         }
     }

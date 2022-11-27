@@ -20,15 +20,15 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
     @Override
     public void afterPropertiesSet() {
         Map<Object, Object> dataSourceMap = DataSourceAgent.dataSourceMap;
-        for (Object key: dataSourceMap.keySet()){
+        for (Object key : dataSourceMap.keySet()) {
             String keyString = key.toString();
-            DataSource valDataSource = (DataSource)dataSourceMap.get(key);
+            DataSource valDataSource = (DataSource) dataSourceMap.get(key);
             putDataSource(keyString, valDataSource);
         }
 
         setDefaultTargetDataSource(DataSourceLocal.getDataSource());
         setDefaultTargetDataSource(dataSourceMap.get("dict"));
-        if (DataSourceLocal.getDataSourceName() != null){
+        if (DataSourceLocal.getDataSourceName() != null) {
             dataSourceMap.put(DataSourceLocal.getDataSourceName(), DataSourceLocal.getDataSource());
         }
         setTargetDataSources(dataSourceMap);
@@ -38,37 +38,34 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
         String dataSourceName = DataSourceLocal.getDataSourceName();
-        if (dataSourceName == null){
+        if (dataSourceName == null) {
             logger.debug("空数据源");
             throw new IllegalArgumentException("空数据源");
         }
         return dataSourceName;
     }
 
-    public static void putDataSource(String name, DataSource dataSource){
+    public static void putDataSource(String name, DataSource dataSource) {
         dataSourceMap.put(name, dataSource);
     }
 
-    public static DataSource getDataSource(Object name){
+    public static DataSource getDataSource(Object name) {
         return (DataSource) dataSourceMap.get(name);
     }
 
-    public DataSourceAgent(Map<String, DataSource> map){
-        for (String key: map.keySet()){
+    public DataSourceAgent(Map<String, DataSource> map) {
+        for (String key : map.keySet()) {
             putDataSource(key, map.get(key));
         }
     }
 
-    /**
-     * 获取dataSourceMap的key集合
-     */
-    public static Set<Object> getSourceMapKeySet(){
+    public static Set<Object> getSourceMapKeySet() {
         Set<Object> objects = dataSourceMap.keySet();
         return objects;
     }
 
-    public DataSource getRandomDataSource(){
-        for (Object key: dataSourceMap.keySet()){
+    public DataSource getRandomDataSource() {
+        for (Object key : dataSourceMap.keySet()) {
             return (DataSource) dataSourceMap.get(key);
         }
         return null;

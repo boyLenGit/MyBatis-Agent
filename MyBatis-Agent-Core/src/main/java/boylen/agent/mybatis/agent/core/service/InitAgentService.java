@@ -11,7 +11,6 @@ public class InitAgentService implements SmartLifecycle {
 
     @Override
     public void start() {
-        // 初始化
         try {
             DataTableAdapter.initTableSourceMap();
         } catch (SQLException e) {

@@ -25,11 +25,11 @@ public class DataTableAdapter {
         databaseNameMap.clear();
         SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) SpringTool.getBean("sqlSessionFactory");
         String sql = "select table_name name from information_schema.tables where TABLE_SCHEMA='{DATABASE}'";
-        for (Object key: DataSourceAgent.getSourceMapKeySet()){
+        for (Object key : DataSourceAgent.getSourceMapKeySet()) {
             String sqlExecute = sql.replace("{DATABASE}", key.toString());
             DataSourceLocal.setDataSource(key.toString(), DataSourceAgent.getDataSource(key));
             ResultSet resultSet = sqlSessionFactory.openSession().getConnection().createStatement().executeQuery(sqlExecute);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String tableName = resultSet.getString("name");
                 dataSourceMap.put(tableName, DataSourceAgent.getDataSource(key));
                 databaseNameMap.put(tableName, key.toString());
@@ -38,23 +38,23 @@ public class DataTableAdapter {
         logger.info("自适应数据表DataTableAdapter初始化完毕，数据表数量：" + dataSourceMap.size());
     }
 
-    public DataSource getDataSourceByTableName(String tableName){
+    public DataSource getDataSourceByTableName(String tableName) {
         DataSource dataSource = dataSourceMap.get(tableName);
-        if (dataSource == null){
+        if (dataSource == null) {
             try {
                 initTableSourceMap();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 logger.debug("initTableSourceMap异常：" + e);
             }
             dataSource = dataSourceMap.get(tableName);
-            if (dataSource == null){
+            if (dataSource == null) {
                 logger.debug("数据表对应的数据库不存在！数据表名：" + tableName);
                 // TODO 异常
                 return null;
-            }else{
+            } else {
                 return dataSource;
             }
-        }else {
+        } else {
             return dataSource;
         }
     }
@@ -62,20 +62,20 @@ public class DataTableAdapter {
     public static void setDataSourceByTableName(String tableName) throws SQLException {
         DataSource dataSource = dataSourceMap.get(tableName);
         String databaseName = databaseNameMap.get(tableName);
-        if (dataSource == null){
+        if (dataSource == null) {
             try {
                 initTableSourceMap();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 logger.debug("initTableSourceMap异常：" + e);
             }
             dataSource = dataSourceMap.get(tableName);
-            if (dataSource == null){
+            if (dataSource == null) {
                 logger.debug("数据表对应的数据库不存在！数据表名：" + tableName);
                 throw new SQLException("数据表对应的数据库不存在！数据表名：" + tableName);
-            }else{
+            } else {
                 DataSourceLocal.setDataSource(databaseName, dataSource);
             }
-        }else {
+        } else {
             DataSourceLocal.setDataSource(databaseName, dataSource);
         }
     }

@@ -11,7 +11,7 @@
 
     <groupId>boylen.agent</groupId>
     <artifactId>MyBatis-Agent-AutoConfigration</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>MyBatis-Agent-AutoConfigration</name>
     <description>MyBatis-Agent-AutoConfigration</description>
     <properties>

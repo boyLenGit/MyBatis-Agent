@@ -126,7 +126,6 @@ public class ReflectUtils {
                     objVal = fields[i].get(obj);
                     list.add(new ObjectMap(varName, objVal));
                 } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 // 恢复访问控制权限

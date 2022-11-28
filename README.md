@@ -70,3 +70,13 @@ public interface GoodsMapper {
     Integer countGoodsNum();
 }
 ```
+
+## 计划
+
+1.兼容tdsql
+
+2.事务
+
+3.内置分页
+
+4.读写分离模式

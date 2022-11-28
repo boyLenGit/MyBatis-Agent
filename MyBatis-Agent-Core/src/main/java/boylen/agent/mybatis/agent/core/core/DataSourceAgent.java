@@ -27,7 +27,7 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
         }
 
         setDefaultTargetDataSource(DataSourceLocal.getDataSource());
-        setDefaultTargetDataSource(dataSourceMap.get("dict"));
+        setDefaultTargetDataSource(getDefaultDataSource());
         if (DataSourceLocal.getDataSourceName() != null) {
             dataSourceMap.put(DataSourceLocal.getDataSourceName(), DataSourceLocal.getDataSource());
         }
@@ -67,7 +67,7 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
         return objects;
     }
 
-    public DataSource getRandomDataSource() {
+    public DataSource getDefaultDataSource() {
         for (Object key : dataSourceMap.keySet()) {
             return (DataSource) dataSourceMap.get(key);
         }

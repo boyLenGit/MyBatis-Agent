@@ -19,19 +19,16 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
 
     @Override
     public void afterPropertiesSet() {
-        Map<Object, Object> dataSourceMap = DataSourceAgent.dataSourceMap;
-        for (Object key : dataSourceMap.keySet()) {
-            String keyString = key.toString();
-            DataSource valDataSource = (DataSource) dataSourceMap.get(key);
-            putDataSource(keyString, valDataSource);
-        }
+        Map<Object, Object> dataSourceMapTarget = dataSourceMap;
 
         setDefaultTargetDataSource(DataSourceLocal.getDataSource());
         setDefaultTargetDataSource(getDefaultDataSource());
+
         if (DataSourceLocal.getDataSourceName() != null) {
-            dataSourceMap.put(DataSourceLocal.getDataSourceName(), DataSourceLocal.getDataSource());
+            dataSourceMapTarget.put(DataSourceLocal.getDataSourceName(), DataSourceLocal.getDataSource());
         }
-        setTargetDataSources(dataSourceMap);
+        // AbstractRoutingDataSource会将"determineCurrentLookupKey的Key"去取"setTargetDataSources的Map"，取出来的DataSource就是目标DataSource
+        setTargetDataSources(dataSourceMapTarget);
         super.afterPropertiesSet();
     }
 
@@ -67,6 +64,10 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
         return objects;
     }
 
+    /**
+     * 获取默认数据源，目前是选Map的第一个DataSource
+     * TODO
+     */
     public DataSource getDefaultDataSource() {
         for (Object key : dataSourceMap.keySet()) {
             return (DataSource) dataSourceMap.get(key);

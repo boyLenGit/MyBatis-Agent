@@ -13,7 +13,7 @@ public class InitAgentService implements SmartLifecycle {
     public void start() {
         // 初始化
         try {
-            DataTableAdapter.initTableSourceMap();
+            DataTableAdapter.initDataTableAdapter();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

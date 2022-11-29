@@ -12,7 +12,7 @@ public class InitAgentService implements SmartLifecycle {
     @Override
     public void start() {
         try {
-            DataTableAdapter.initTableSourceMap();
+            DataTableAdapter.initDataTableAdapter();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

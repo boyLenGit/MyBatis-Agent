@@ -27,7 +27,6 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
         if (DataSourceLocal.getDataSourceName() != null) {
             dataSourceMapTarget.put(DataSourceLocal.getDataSourceName(), DataSourceLocal.getDataSource());
         }
-        // AbstractRoutingDataSource会将"determineCurrentLookupKey的Key"去取"setTargetDataSources的Map"，取出来的DataSource就是目标DataSource
         setTargetDataSources(dataSourceMapTarget);
         super.afterPropertiesSet();
     }
@@ -56,18 +55,11 @@ public class DataSourceAgent extends AbstractRoutingDataSource {
         }
     }
 
-    /**
-     * 获取dataSourceMap的key集合
-     */
     public static Set<Object> getSourceMapKeySet() {
         Set<Object> objects = dataSourceMap.keySet();
         return objects;
     }
 
-    /**
-     * 获取默认数据源，目前是选Map的第一个DataSource
-     * TODO
-     */
     public DataSource getDefaultDataSource() {
         for (Object key : dataSourceMap.keySet()) {
             return (DataSource) dataSourceMap.get(key);

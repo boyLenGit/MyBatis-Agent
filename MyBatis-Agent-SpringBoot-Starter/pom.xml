@@ -47,4 +47,36 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- 开源许可协议 -->
+    <licenses>
+        <license>
+            <name>BSD 3-Clause</name>
+            <url>https://spdx.org/licenses/BSD-3-Clause.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>https://github.com/boyLenGit/MyBatis-Agent.git</connection>
+        <url>https://github.com/boyLenGit/MyBatis-Agent</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>boyLen</name>
+            <email>1024552631@qq.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
 </project>

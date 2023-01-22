@@ -27,7 +27,7 @@
         <dependency>
             <groupId>boylen.agent</groupId>
             <artifactId>MyBatis-Agent-Core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2</version>
         </dependency>
 
         <dependency>
